@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>💖 Chúc Mừng 20/10 – Yêu Em Mãi Mãi 💖</title>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      background: radial-gradient(ellipse at top, #1a0010 0%, #0d0005 60%, #000 100%);
+      overflow-x: hidden;
+      font-family: 'Dancing Script', cursive;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    /* ── Floating particles ── */
+    .particles {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .particle {
+      position: absolute;
+      border-radius: 50%;
+      animation: floatUp linear infinite;
+      opacity: 0;
+    }
+    @keyframes floatUp {
+      0%   { transform: translateY(100vh) scale(0); opacity: 0; }
+      10%  { opacity: 1; }
+      90%  { opacity: 0.6; }
+      100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+    }
+
+    /* ── Canvas hearts ── */
+    #heartCanvas {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    /* ── Main card ── */
+    .card {
+      position: relative;
+      z-index: 10;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,100,150,0.3);
+      backdrop-filter: blur(24px);
+      border-radius: 32px;
+      padding: 56px 48px;
+      max-width: 480px;
+      width: 92%;
+      text-align: center;
+      box-shadow:
+        0 0 60px rgba(255,50,100,0.15),
+        inset 0 1px 0 rgba(255,255,255,0.1);
+      animation: cardIn 1.2s cubic-bezier(.22,1,.36,1) both;
+    }
+    @keyframes cardIn {
+      from { opacity:0; transform: translateY(60px) scale(.9); }
+      to   { opacity:1; transform: translateY(0)   scale(1); }
+    }
+
+    /* ── Pulsing big heart ── */
+    .big-heart-wrap {
+      position: relative;
+      display: inline-block;
+      margin-bottom: 24px;
+    }
+    .big-heart {
+      font-size: 100px;
+      display: block;
+      animation: heartbeat 1.4s ease-in-out infinite;
+      filter: drop-shadow(0 0 30px #ff2d55) drop-shadow(0 0 60px #ff2d5580);
+      line-height: 1;
+    }
+    @keyframes heartbeat {
+      0%,100% { transform: scale(1); }
+      14%      { transform: scale(1.15); }
+      28%      { transform: scale(1); }
+      42%      { transform: scale(1.08); }
+      70%      { transform: scale(1); }
+    }
+    .ring {
+      position: absolute;
+      inset: -12px;
+      border-radius: 50%;
+      border: 2px solid rgba(255,80,120,0.5);
+      animation: ringPulse 1.4s ease-in-out infinite;
+    }
+    .ring2 {
+      inset: -24px;
+      border-color: rgba(255,80,120,0.25);
+      animation-delay: 0.3s;
+    }
+    @keyframes ringPulse {
+      0%,100% { transform: scale(1); opacity:0.8; }
+      50%      { transform: scale(1.15); opacity:0; }
+    }
+
+    /* ── Date badge ── */
+    .date-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, #ff2d55, #ff6b9d, #c44dff);
+      border-radius: 50px;
+      padding: 6px 24px;
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 2px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 20px rgba(255,45,85,0.4);
+      animation: badgePop 0.8s 0.5s cubic-bezier(.22,1,.36,1) both;
+    }
+    @keyframes badgePop {
+      from { opacity:0; transform: scale(.6); }
+      to   { opacity:1; transform: scale(1); }
+    }
+
+    /* ── Title ── */
+    h1 {
+      font-family: 'Dancing Script', cursive;
+      font-size: clamp(2rem, 8vw, 2.8rem);
+      font-weight: 700;
+      background: linear-gradient(135deg, #fff 0%, #ffb3c8 50%, #ff6b9d 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1.2;
+      margin-bottom: 20px;
+      animation: titleIn 1s 0.6s both;
+    }
+    @keyframes titleIn {
+      from { opacity:0; transform: translateY(20px); }
+      to   { opacity:1; transform: translateY(0); }
+    }
+
+    /* ── Message lines ── */
+    .message {
+      font-size: 1.15rem;
+      color: rgba(255,220,230,0.9);
+      line-height: 1.8;
+      margin-bottom: 28px;
+      animation: msgIn 1s 0.8s both;
+    }
+    @keyframes msgIn {
+      from { opacity:0; transform: translateY(16px); }
+      to   { opacity:1; transform: translateY(0); }
+    }
+    .message span {
+      color: #ff6b9d;
+      font-weight: 700;
+    }
+
+    /* ── Divider ── */
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 0 0 28px;
+      animation: msgIn 1s 1s both;
+    }
+    .divider::before,.divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,100,150,0.5), transparent);
+    }
+    .divider-icon { font-size: 1.2rem; }
+
+    /* ── Poem ── */
+    .poem {
+      font-size: 1.05rem;
+      color: rgba(255,200,220,0.85);
+      line-height: 2;
+      font-style: italic;
+      margin-bottom: 32px;
+      animation: msgIn 1s 1.1s both;
+    }
+
+    /* ── Closing ── */
+    .closing {
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.4rem;
+      color: #ff6b9d;
+      animation: msgIn 1s 1.3s both;
+    }
+
+    /* ── Sparkle stars ── */
+    .stars {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 2;
+    }
+    .star {
+      position: absolute;
+      color: #fff;
+      font-size: 12px;
+      animation: twinkle linear infinite;
+      opacity: 0;
+    }
+    @keyframes twinkle {
+      0%,100% { opacity:0; transform: scale(0) rotate(0deg); }
+      50%      { opacity:1; transform: scale(1) rotate(180deg); }
+    }
+
+    /* ── Music note ── */
+    .music {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 20;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,100,150,0.3);
+      border-radius: 50%;
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      cursor: pointer;
+      backdrop-filter: blur(10px);
+      transition: transform 0.3s, background 0.3s;
+    }
+    .music:hover { transform: scale(1.1); background: rgba(255,50,100,0.2); }
+    .music.playing { animation: spin 3s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+
+<!-- Floating particles -->
+<div class="particles" id="particles"></div>
+
+<!-- Stars -->
+<div class="stars" id="stars"></div>
+
+<!-- Heart canvas -->
+<canvas id="heartCanvas"></canvas>
+
+<!-- Main card -->
+<div class="card">
+  <div class="big-heart-wrap">
+    <div class="ring ring2"></div>
+    <div class="ring"></div>
+    <span class="big-heart">💖</span>
+  </div>
+
+  <div class="date-badge">✨ 20 / 10 / 2026 ✨</div>
+
+  <h1>Chúc Mừng Ngày<br/>Phụ Nữ Việt Nam</h1>
+
+  <p class="message">
+    Gửi đến <span>người con gái anh yêu nhất</span> —<br/>
+    Mỗi ngày bên em là một ngày anh thấy<br/>
+    cuộc đời thật đẹp và ý nghĩa hơn bao giờ hết. 💕
+  </p>
+
+  <div class="divider">
+    <span class="divider-icon">🌹</span>
+    <span class="divider-icon">💌</span>
+    <span class="divider-icon">🌹</span>
+  </div>
+
+  <p class="poem">
+    "Em là ánh sáng trong ngày của anh,<br/>
+    Là nụ cười xóa tan mọi ưu phiền,<br/>
+    Là lý do anh muốn trở về nhà,<br/>
+    Yêu em hôm nay, ngày mai và mãi mãi."
+  </p>
+
+  <p class="closing">
+    ❤️ Anh yêu em rất nhiều ❤️
+  </p>
+</div>
+
+<!-- Music icon -->
+<div class="music" id="musicBtn" title="Nhấn để nghe nhạc" onclick="toggleMusic()">🎵</div>
+
+<audio id="bgMusic" loop>
+  <!-- Gentle background music via Web Audio API – generated below -->
+</audio>
+
+<script>
+  // ── Floating particles ──
+  const particlesEl = document.getElementById('particles');
+  const COLORS = ['#ff2d55','#ff6b9d','#ff9ebb','#c44dff','#ff80ab'];
+  for (let i = 0; i < 35; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    const size = Math.random() * 8 + 4;
+    p.style.cssText = `
+      width:${size}px; height:${size}px;
+      left:${Math.random()*100}%;
+      background:${COLORS[Math.floor(Math.random()*COLORS.length)]};
+      animation-duration:${Math.random()*8+6}s;
+      animation-delay:${Math.random()*8}s;
+      opacity:0;
+    `;
+    particlesEl.appendChild(p);
+  }
+
+  // ── Twinkling stars ──
+  const starsEl = document.getElementById('stars');
+  for (let i = 0; i < 60; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    s.textContent = ['✦','✧','★','✴','✸'][Math.floor(Math.random()*5)];
+    s.style.cssText = `
+      left:${Math.random()*100}%;
+      top:${Math.random()*100}%;
+      animation-duration:${Math.random()*4+2}s;
+      animation-delay:${Math.random()*6}s;
+      font-size:${Math.random()*10+8}px;
+      color:rgba(255,${Math.floor(Math.random()*100+150)},${Math.floor(Math.random()*100+150)},0.8);
+    `;
+    starsEl.appendChild(s);
+  }
+
+  // ── Canvas floating hearts ──
+  const canvas = document.getElementById('heartCanvas');
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  window.addEventListener('resize', () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  });
+
+  class FloatHeart {
+    constructor() { this.reset(); }
+    reset() {
+      this.x = Math.random() * canvas.width;
+      this.y = canvas.height + 60;
+      this.size = Math.random() * 22 + 10;
+      this.speed = Math.random() * 1.5 + 0.5;
+      this.opacity = Math.random() * 0.5 + 0.1;
+      this.drift = (Math.random() - 0.5) * 0.8;
+      this.wobble = Math.random() * Math.PI * 2;
+      this.wobbleSpeed = Math.random() * 0.04 + 0.01;
+      this.hue = Math.random() * 40 + 340; // pinks/reds
+    }
+    update() {
+      this.y -= this.speed;
+      this.wobble += this.wobbleSpeed;
+      this.x += Math.sin(this.wobble) * 0.6 + this.drift;
+      if (this.y < -80) this.reset();
+    }
+    draw() {
+      ctx.save();
+      ctx.globalAlpha = this.opacity;
+      ctx.translate(this.x, this.y);
+      ctx.scale(this.size / 30, this.size / 30);
+      const grad = ctx.createRadialGradient(0, -5, 2, 0, 0, 30);
+      grad.addColorStop(0, `hsl(${this.hue},100%,80%)`);
+      grad.addColorStop(1, `hsl(${this.hue},100%,50%)`);
+      ctx.fillStyle = grad;
+      ctx.beginPath();
+      ctx.moveTo(0, 4);
+      ctx.bezierCurveTo(-2, 0, -8, 0, -8, -6);
+      ctx.bezierCurveTo(-8, -14, 0, -16, 0, -10);
+      ctx.bezierCurveTo(0, -16, 8, -14, 8, -6);
+      ctx.bezierCurveTo(8, 0, 2, 0, 0, 4);
+      ctx.fill();
+      ctx.restore();
+    }
+  }
+
+  const hearts = Array.from({length: 30}, () => {
+    const h = new FloatHeart();
+    h.y = Math.random() * canvas.height; // scatter at start
+    return h;
+  });
+
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    hearts.forEach(h => { h.update(); h.draw(); });
+    requestAnimationFrame(animate);
+  }
+  animate();
+
+  // ── Web Audio gentle music ──
+  let audioCtx = null;
+  let playing = false;
+  let nodes = [];
+
+  function toggleMusic() {
+    const btn = document.getElementById('musicBtn');
+    if (!playing) {
+      startMusic();
+      btn.textContent = '🎶';
+      btn.classList.add('playing');
+    } else {
+      stopMusic();
+      btn.textContent = '🎵';
+      btn.classList.remove('playing');
+    }
+    playing = !playing;
+  }
+
+  function startMusic() {
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const master = audioCtx.createGain();
+    master.gain.value = 0.18;
+    master.connect(audioCtx.destination);
+
+    // A gentle romantic melody
+    const melody = [
+      [440,0.4],[494,0.4],[523,0.4],[587,0.8],
+      [523,0.4],[494,0.4],[440,0.8],[392,0.4],
+      [440,0.4],[494,0.4],[440,0.4],[392,0.4],[349,0.8],
+      [0,0.4],[392,0.4],[440,0.4],[494,0.8],
+      [440,0.4],[523,0.4],[587,0.8],[659,0.4],
+      [587,0.4],[523,0.4],[494,0.8]
+    ];
+
+    let t = audioCtx.currentTime + 0.1;
+    function scheduleMelody() {
+      melody.forEach(([freq, dur]) => {
+        if (freq > 0) {
+          const osc = audioCtx.createOscillator();
+          const env = audioCtx.createGain();
+          osc.type = 'sine';
+          osc.frequency.value = freq;
+          env.gain.setValueAtTime(0, t);
+          env.gain.linearRampToValueAtTime(0.6, t + 0.05);
+          env.gain.exponentialRampToValueAtTime(0.001, t + dur);
+          osc.connect(env);
+          env.connect(master);
+          osc.start(t);
+          osc.stop(t + dur + 0.05);
+          nodes.push(osc);
+        }
+        t += dur;
+      });
+    }
+    scheduleMelody();
+    // Loop
+    const totalDur = melody.reduce((a,[,d])=>a+d,0);
+    function loop() {
+      scheduleMelody();
+    }
+    setInterval(loop, totalDur * 1000);
+  }
+
+  function stopMusic() {
+    if (audioCtx) {
+      audioCtx.close();
+      audioCtx = null;
+      nodes = [];
+    }
+  }
+</script>
+</body>
+</html>

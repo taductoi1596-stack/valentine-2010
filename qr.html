@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>QR Code – Bí Mật 20/10 💖</title>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      min-height: 100vh;
+      background: radial-gradient(ellipse at top, #1a0010 0%, #0d0005 60%, #000 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Inter', sans-serif;
+      padding: 24px;
+      overflow: hidden;
+    }
+
+    /* Stars */
+    .star {
+      position: fixed;
+      color: #fff;
+      animation: twinkle linear infinite;
+      opacity: 0;
+      pointer-events: none;
+    }
+    @keyframes twinkle {
+      0%,100% { opacity:0; } 50% { opacity:0.7; }
+    }
+
+    .card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,100,150,0.35);
+      backdrop-filter: blur(24px);
+      border-radius: 32px;
+      padding: 48px 40px;
+      max-width: 440px;
+      width: 100%;
+      text-align: center;
+      box-shadow:
+        0 0 80px rgba(255,50,100,0.2),
+        inset 0 1px 0 rgba(255,255,255,0.1);
+      animation: cardIn 1s cubic-bezier(.22,1,.36,1) both;
+    }
+    @keyframes cardIn {
+      from { opacity:0; transform: translateY(40px); }
+      to   { opacity:1; transform: translateY(0); }
+    }
+
+    .heart-emoji {
+      font-size: 60px;
+      display: block;
+      margin-bottom: 12px;
+      animation: heartbeat 1.4s ease-in-out infinite;
+      filter: drop-shadow(0 0 20px #ff2d55);
+    }
+    @keyframes heartbeat {
+      0%,100% { transform: scale(1); }
+      14%      { transform: scale(1.2); }
+      28%      { transform: scale(1); }
+      42%      { transform: scale(1.1); }
+      70%      { transform: scale(1); }
+    }
+
+    h1 {
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.9rem;
+      background: linear-gradient(135deg, #fff 0%, #ffb3c8 50%, #ff6b9d 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      color: rgba(255,200,220,0.7);
+      font-size: 0.9rem;
+      margin-bottom: 32px;
+      letter-spacing: 0.5px;
+    }
+
+    /* QR container */
+    #qrcode {
+      display: inline-block;
+      background: #fff;
+      border-radius: 20px;
+      padding: 16px;
+      box-shadow:
+        0 0 40px rgba(255,80,120,0.3),
+        0 0 80px rgba(255,80,120,0.1);
+      margin-bottom: 28px;
+      position: relative;
+      animation: qrGlow 2s ease-in-out infinite alternate;
+    }
+    @keyframes qrGlow {
+      from { box-shadow: 0 0 30px rgba(255,80,120,0.3), 0 0 60px rgba(255,80,120,0.1); }
+      to   { box-shadow: 0 0 50px rgba(255,80,120,0.6), 0 0 100px rgba(255,80,120,0.25); }
+    }
+
+    /* Heart corners on QR */
+    #qrcode::before,
+    #qrcode::after {
+      content: '💕';
+      position: absolute;
+      font-size: 20px;
+    }
+    #qrcode::before { top: -14px; left: -10px; }
+    #qrcode::after  { bottom: -14px; right: -10px; }
+
+    .hint {
+      color: rgba(255,180,210,0.8);
+      font-size: 0.88rem;
+      line-height: 1.7;
+      margin-bottom: 24px;
+    }
+    .hint strong { color: #ff6b9d; }
+
+    .url-box {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,100,150,0.2);
+      border-radius: 12px;
+      padding: 10px 16px;
+      font-size: 0.75rem;
+      color: rgba(255,180,210,0.6);
+      word-break: break-all;
+      margin-bottom: 4px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .url-box:hover { background: rgba(255,100,150,0.1); }
+
+    .note {
+      font-size: 0.72rem;
+      color: rgba(255,150,180,0.5);
+      margin-top: 8px;
+    }
+
+    /* Print button */
+    .btn-print {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 20px;
+      background: linear-gradient(135deg, #ff2d55, #c44dff);
+      border: none;
+      border-radius: 50px;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 0.9rem;
+      padding: 12px 28px;
+      cursor: pointer;
+      box-shadow: 0 4px 20px rgba(255,45,85,0.4);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .btn-print:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(255,45,85,0.5);
+    }
+    .btn-print:active { transform: translateY(0); }
+
+    @media print {
+      body { background: #fff !important; }
+      .card {
+        background: #fff !important;
+        border: none !important;
+        box-shadow: none !important;
+      }
+      h1 { -webkit-text-fill-color: #c41755 !important; }
+      .subtitle, .hint, .url-box, .btn-print, .note { color: #555 !important; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Stars decoration -->
+<script>
+  const symbols = ['✦','✧','★','✴','✸','💫'];
+  for (let i = 0; i < 50; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    s.textContent = symbols[Math.floor(Math.random()*symbols.length)];
+    s.style.cssText = `
+      left:${Math.random()*100}%;
+      top:${Math.random()*100}%;
+      font-size:${Math.random()*10+6}px;
+      animation-duration:${Math.random()*4+2}s;
+      animation-delay:${Math.random()*5}s;
+    `;
+    document.body.appendChild(s);
+  }
+</script>
+
+<div class="card">
+  <span class="heart-emoji">💖</span>
+  <h1>Bí Mật Ngày 20/10</h1>
+  <p class="subtitle">Dành riêng cho người anh yêu nhất 🌹</p>
+
+  <!-- QR Code will be generated here -->
+  <div id="qrcode"></div>
+
+  <p class="hint">
+    <strong>📱 Quét mã QR này</strong> bằng điện thoại<br/>
+    để nhận món quà bí mật từ anh 💌
+  </p>
+
+  <div class="url-box" id="urlDisplay" onclick="copyUrl()" title="Nhấn để sao chép">
+    📎 Đang tải địa chỉ...
+  </div>
+  <p class="note" id="copyNote">Nhấn vào ô trên để sao chép địa chỉ</p>
+
+  <button class="btn-print" onclick="window.print()">🖨️ In mã QR</button>
+</div>
+
+<script>
+  // ── URL cố định trên GitHub Pages ──
+  // Ai cũng quét được, không cần cùng WiFi
+  const TARGET_URL = 'https://taductoi1596-stack.github.io/valentine-2010';
+
+  document.getElementById('urlDisplay').textContent = '📎 ' + TARGET_URL;
+
+  // ── Generate QR ──
+  new QRCode(document.getElementById('qrcode'), {
+    text: TARGET_URL,
+    width: 220,
+    height: 220,
+    colorDark: '#1a0010',
+    colorLight: '#ffffff',
+    correctLevel: QRCode.CorrectLevel.H
+  });
+
+  // ── Copy URL ──
+  function copyUrl() {
+    navigator.clipboard.writeText(TARGET_URL).then(() => {
+      const note = document.getElementById('copyNote');
+      note.textContent = '✅ Đã sao chép!';
+      note.style.color = '#ff6b9d';
+      setTimeout(() => {
+        note.textContent = 'Nhấn vào ô trên để sao chép địa chỉ';
+        note.style.color = '';
+      }, 2000);
+    });
+  }
+</script>
+</body>
+</html>
